@@ -3,11 +3,11 @@
 
 #### Contract Deployment
 
-<img src="images/ch2/contract_deployment.png" alt="screenshot" size="250" />
+<img src="../images/ch2/contract_deployment.png" alt="screenshot" size="250" />
 
 #### Script Result
 
-<img src="images/ch2/script_output.png" alt="screenshot" size="250" />
+<img src="../images/ch2/script_output.png" alt="screenshot" size="250" />
 
 ## Day 2
 
@@ -27,16 +27,16 @@ The prepare phase is where we get access to the account or data. And we can't do
 
 Contract code:
 
-<img src="images/ch2/contract_code.png" alt="screenshot" size="250" />
+<img src="../images/ch2/contract_code.png" alt="screenshot" size="250" />
 
 Transaction code:
 
-<img src="images/ch2/transaction_code.png" alt="screenshot" size="250" />
+<img src="../images/ch2/transaction_code.png" alt="screenshot" size="250" />
 
 Script code:
 
-<img src="images/ch2/script_code.png" alt="screenshot" size="250" />
+<img src="../images/ch2/script_code.png" alt="screenshot" size="250" />
 
 Script results (before and after running a transaction):
 
-<img src="images/ch2/script_output_2.png" alt="screenshot" size="250" />
+<img src="../images/ch2/script_output_2.png" alt="screenshot" size="250" />
