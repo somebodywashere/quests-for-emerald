@@ -23,11 +23,13 @@
 
 <img src="https://raw.githubusercontent.com/emerald-dao/beginner-cadence-course/main/chapter2.0/images/wrongcode.png" alt="screenshot" size="250" />
 
-Values of a dictionary are always an optionals. Function above should always returns 'String', but in fact it can returns 'nil'. To fix that we can force-unwrap a return by adding '!' like this: 
+Values of a dictionary are always an optionals. Function above should always returns 'String', but in fact it can return 'nil'. To fix this we can force-unwrap a return by adding '!' like this: 
 ```javascript
 return thing[0x03]!
 ```
-but better just add an optinal suffix to the call type like this:
+but better to add an optinal suffix to the call type like this:
 ```javascript
-pub fun main(): String? {...}
+pub fun main(): String? {
+...
+}
 ```
