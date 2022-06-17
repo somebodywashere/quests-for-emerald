@@ -87,8 +87,8 @@ pub contract Players {
         self.arrayOfPlayers.append(<- player)
     }
 
-    pub fun addPlayerWithNickname(player: @Player, key: String) {
-        self.dictionaryOfNicknames[key] <-! player
+    pub fun addPlayerWithNickname(player: @Player, nickname: String) {
+        self.dictionaryOfNicknames[nickname] <-! player
     }
 
     pub fun removePlayer(id: Int): @Player {
