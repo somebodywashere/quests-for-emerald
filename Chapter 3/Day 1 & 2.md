@@ -4,10 +4,10 @@
 #### 1. In words, list 3 reasons why structs are different from resources.
 
 Structs are just containers of data.
-Resources are extremely secure containers of data that:
+Resources are *extremely* secure containers of data that:
 - Can't be copied or overwritten
 - Can't be created outside of the contract
-- Hard to lose and easy to track because of how we handle them (primarily move)
+- Hard to lose and easy to track because of how we handle them (primarily `move` and destroy with 'destroy')
 
 #### 2. Describe a situation where a resource might be better to use than a struct.
 
@@ -63,5 +63,45 @@ pub contract Test {
         let myJacob <- create Jacob() 
         return <- myJacob 
     }
+}
+```
+
+## Day 2
+
+```cadence
+pub contract Players {
+
+    pub var arrayOfPlayers: @[Player]
+    pub var dictionaryOfNicknames: @{String: Player}
+
+    pub importab resource Player {
+        pub var race: String
+        init() {
+            self.race = "Human"
+        }
+    }
+
+    pub fun addPlayer(player: @Player) {
+        self.arrayOfPlayers.append(<- player)
+    }
+
+    pub fun addPlayerWithNickname(player: @Player, key: String) {
+        self.dictionaryOfNicknames[key] <-! player
+    }
+
+    pub fun removePlayer(id: Int): @Player {
+        return <- self.arrayOfPlayers.remove(at: id)
+    }
+
+    pub fun removePlayerWithNickname(nickname: String): @Player {
+        let player <- self.dictionaryOfNicknames.remove(key: nickname) ?? panic("Player with such nickname not found!")
+        return <- player
+    }
+
+    init() {
+        self.arrayOfPlayers <- []
+        self.dictionaryOfNicknames <- {}
+    }
+
 }
 ```
