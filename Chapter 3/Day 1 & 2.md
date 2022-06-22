@@ -76,7 +76,7 @@ pub contract Players {
     pub var arrayOfPlayers: @[Player]
     pub var dictionaryOfNicknames: @{String: Player}
 
-    pub importab resource Player {
+    pub resource Player {
         pub var race: String
         init() {
             self.race = "Human"

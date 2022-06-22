@@ -1,0 +1,193 @@
+# Chapter 3
+## Day 3
+
+#### 1. Define your own contract that stores a dictionary of resources. Add a function to get a reference to one of the resources in the dictionary.
+
+```cadence
+pub contract Players {
+
+    pub var dictionaryOfNicknames: @{String: Player}
+
+    pub resource Player {
+        pub let race: String
+        init(_race: String) {
+            self.race = _race
+        }
+    }
+
+    pub fun addNickname(player: @Player, key: String) {
+        self.dictionaryOfNicknames[key] <-! player
+    }
+
+    pub fun removeNickname(nickname: String): @Player {
+        let player <- self.dictionaryOfNicknames.remove(key: nickname) ?? panic("Player with such nickname not found!")
+        return <- player
+    }
+
+	pub fun getPlayer(nickname: String): &Player {
+        return (&self.dictionaryOfNicknames[nickname] as &Player?) ?? panic("Player with such nickname not found!")
+    }
+
+    init() {
+        self.dictionaryOfNicknames <- {
+        "Jacob1337": <- create Player(_race: "Elf"),
+        "somebody": <- create Player(_race: "Dwarf"),
+        "CadenceLover": <- create Player(_race: "Human")
+        }
+    }
+}
+```
+
+#### 2. Create a script that reads information from that resource using the reference from the function you defined in part 1.
+
+```cadence
+import Players from 0x01
+
+pub fun main(): String {
+  var player = Players.getPlayer(nickname: "somebody")
+  return player.race
+}
+```
+
+#### 3. Explain, in your own words, why references can be useful in Cadence.
+
+References are very useful for resources (and not only) because we can interact with the resource without actually having it.
+
+## Day 4
+
+#### 1. Explain, in your own words, the 2 things resource interfaces can be used for (we went over both in today's content)
+
+First thing is that we can use resource interface as a requirements to create something
+Secondly we can use resource interface to restrict access to the whole resource
+
+#### 2. Define your own contract. Make your own resource interface and a resource that implements the interface. Create 2 functions. In the 1st function, show an example of not restricting the type of the resource and accessing its content. In the 2nd function, show an example of restricting the type of the resource and NOT being able to access its content.
+
+```cadence
+pub contract Players {
+
+    pub var dictionaryOfNicknames: @{String: Player}
+
+    pub resource interface IPlayer {
+        pub var type: Int
+    }
+
+    pub resource Player: IPlayer {
+        pub var race: String
+        pub var type: Int
+        init(_race: String, _type: Int) {
+            self.race = _race
+            self.type = _type
+        }
+    }
+
+    pub fun addNickname(player: @Player, nickname: String) {
+        self.dictionaryOfNicknames[nickname] <-! player
+    }
+
+    pub fun removeNickname(nickname: String): @Player {
+        let player <- self.dictionaryOfNicknames.remove(key: nickname) ?? panic("Player with such nickname not found!")
+        return <- player
+    }
+
+    pub fun getPlayer(nickname: String): &Player {
+        let player = (&self.dictionaryOfNicknames[nickname] as &Player?) ?? panic("Player with such nickname not found!")
+        return player
+    }
+
+    pub fun changeTypeAndRace(nickname: String, newType: Int, newRace: String) {
+        self.getPlayer(nickname: nickname)
+        let newPlayer: @Player <- create Player(_race: newRace, _type: newType)
+        log (newPlayer.race)
+        log (newPlayer.type)
+        let oldPlayer <- self.dictionaryOfNicknames[nickname] <- newPlayer
+        destroy oldPlayer
+    }
+
+    pub fun changeType(nickname: String, newType: Int){
+        let oldRace = Players.getPlayer(nickname: nickname).race
+        let newPlayer: @Player{IPlayer} <- create Player(_race: oldRace, _type: newType)
+        //log (newPlayer.race) // ERROR: member 'race' is not accessible because we created new resource @Player restricted to {IPlayer}, and that interface only have access to the member 'type'
+        log (newPlayer.type)
+        let oldPlayer <- self.dictionaryOfNicknames[nickname] <- newPlayer
+        destroy oldPlayer
+    }
+
+    init() {
+        self.dictionaryOfNicknames <- {
+        "Jacob1337": <- create Player(_race: "Elf", _type: 2),
+        "somebody": <- create Player(_race: "Dwarf", _type: 0),
+        "CadenceLover": <- create Player(_race: "Human", _type: 1)
+        }
+    }
+}
+```
+
+#### 3. How would we fix this code?
+
+<details>
+<summary>Original code</summary>
+```cadence
+pub contract Stuff {
+
+    pub struct interface ITest {
+      pub var greeting: String
+      pub var favouriteFruit: String
+    }
+
+    // ERROR:
+    // `structure Stuff.Test does not conform 
+    // to structure interface Stuff.ITest`
+    pub struct Test: ITest {
+      pub var greeting: String
+
+      pub fun changeGreeting(newGreeting: String): String {
+        self.greeting = newGreeting
+        return self.greeting // returns the new greeting
+      }
+
+      init() {
+        self.greeting = "Hello!"
+      }
+    }
+
+    pub fun fixThis() {
+      let test: Test{ITest} = Test()
+      let newGreeting = test.changeGreeting(newGreeting: "Bonjour!") // ERROR HERE: `member of restricted type is not accessible: changeGreeting`
+      log(newGreeting)
+    }
+}
+```
+</details>
+
+##### Fixed code:
+
+```cadence
+pub contract Stuff {
+
+	pub struct interface ITest {
+		pub var greeting: String
+		pub var favouriteFruit: String
+		pub fun changeGreeting(newGreeting: String): String //added function changeGreeting so it can be used in function fixThis 
+    }
+
+    pub struct Test: ITest {
+		pub var greeting: String
+		pub var favouriteFruit: String //added favouriteFruit
+		pub fun changeGreeting(newGreeting: String): String {
+			self.greeting = newGreeting
+			return self.greeting // returns the new greeting
+		}
+
+		init() {
+        	self.greeting = "Hello!"
+		    self.favouriteFruit = "Pineapple" // added init to favouriteFruit
+      	}
+    }
+
+    pub fun fixThis() {
+      let test: Test{ITest} = Test()
+      let newGreeting = test.changeGreeting(newGreeting: "Bonjour!")
+      log(newGreeting)
+    }
+}
+```
