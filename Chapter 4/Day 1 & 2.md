@@ -156,16 +156,8 @@ transaction (race: String, type: Int) {
 
 ##### Run a script that tries to access a non-exposed field in the resource interface, and see the error pop up:
 
-```cadence
-
 <img src="../images/ch4/script_result.png" alt="screenshot" size="250" />
-
-```
 
 ##### Run the script and access something you CAN read from. Return it from the script:
 
-```cadence
-
 <img src="../images/ch4/script_result2.png" alt="screenshot" size="250" />
-
-```
