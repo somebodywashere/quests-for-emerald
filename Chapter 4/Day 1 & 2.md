@@ -11,7 +11,7 @@
 It's part of Account Storage.
 - ALL data gets stored in '/storage/' and only owner has access to it.
 - 'public' is a path where data is available for everyone.
-- 'private' is a path where you can share some data.
+- 'private' is a path where you can share data with specified person.
 
 #### 3. What does '.save()' do? What does '.load()' do? What does '.borrow()' do?
 
