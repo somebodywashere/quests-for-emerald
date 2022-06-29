@@ -173,11 +173,13 @@ pub contract CryptoPoops {
   
   // Minter resource that needed to be able to mint new NFTs.
   pub resource Minter {
-
+	
+	// Function to "mint" NFT and return it
     pub fun createNFT(name: String, favouriteFood: String, luckyNumber: Int): @NFT {
       return <- create NFT(_name: name, _favouriteFood: favouriteFood, _luckyNumber: luckyNumber)
     }
-
+	
+	// Function to create Minter resource and return it
     pub fun createMinter(): @Minter {
       return <- create Minter()
     }
