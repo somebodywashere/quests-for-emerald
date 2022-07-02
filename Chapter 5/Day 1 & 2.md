@@ -150,12 +150,11 @@ pub contract Test {
 
 #### 1. Explain why standards can be beneficial to the Flow ecosystem.
 
-It's the function to "link" our data to '/public/' or '/private/'. This "link" has the name - capability. 
+Standards can be beneficial because it can be used as "rules" for some type of contracts. If we implement some contract of fungible token, we want it to to use flow standard 'FungibleToken', so we can easily add it to DEx.
 
 #### 2. What is YOUR favourite food?
 
-When creating capability we can use interface to only expose fields that we want to be exposed. For example resource can have many members and functions inside. 
-But for example if we want only one member to be publicly available than we can use resource interface that have only that one member inside. So we don't expose things we don't want to be exposed.
+Ehm, burgers? *shy* Yeah, I know, that's not healthy.
 
 #### 3. Please fix this code (Hint: There are two things wrong):
 
