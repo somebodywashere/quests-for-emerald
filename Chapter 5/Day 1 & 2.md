@@ -154,7 +154,7 @@ Standards can be beneficial because it can be used as "rules" for some type of c
 
 #### 2. What is YOUR favourite food?
 
-Ehm, burgers? *shy* Yeah, I know, that's not healthy.
+Ehm, burgers? **shy** Yeah, I know, that's not healthy.
 
 #### 3. Please fix this code (Hint: There are two things wrong):
 
