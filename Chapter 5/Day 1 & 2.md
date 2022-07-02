@@ -200,7 +200,7 @@ pub contract Test: ITest { 		// We forgot to add contract interface ITest
     pub var favouriteActivity: String
   }
 
-  pub resource Stuff: ITest.IStuff { // Added should add resource interface from the ITest, not just some IStuff
+  pub resource Stuff: ITest.IStuff { // Added resource interface from the ITest
     pub var favouriteActivity: String
 
     init() {
