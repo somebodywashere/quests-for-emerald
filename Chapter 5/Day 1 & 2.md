@@ -196,9 +196,7 @@ pub contract Test: ITest { 		// We forgot to add contract interface ITest
     self.number = newNumber // We should input '5' as a newNumber, otherwise post condition of the interface contract won't never meet
   }
 
-  pub resource interface IStuff {
-    pub var favouriteActivity: String
-  }
+	//removed unnecessary implementation of IStuff
 
   pub resource Stuff: ITest.IStuff { // Added resource interface from the ITest
     pub var favouriteActivity: String
