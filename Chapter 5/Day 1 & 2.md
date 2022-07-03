@@ -178,7 +178,7 @@ pub contract interface ITest {
     pub var favouriteActivity: String
   }
 
-  pub resource Stuff {
+  pub resource Stuff: IStuff {
     pub var favouriteActivity: String
   }
 }
