@@ -189,7 +189,7 @@ import CryptoPoops from 0x03
 pub fun main(id: UInt64, address: Address) {
 
 
-  // Getting a public collection and an Auth one of the input address
+  // Getting a public collection with the Auth interface of the input address
   let addressCollection = getAccount(address).getCapability(/public/CryptoPoopsCollection)
                             .borrow<&CryptoPoops.Collection{CryptoPoops.CollectionAuth}>() 
                             ?? panic("That address doesn't have a Collection. So there's nothing to look at :(")
