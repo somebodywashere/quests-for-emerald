@@ -7,7 +7,7 @@ When using force casting with 'as!' we can be sure that this particular @NonFung
 
 #### 2. What does 'auth' do? When do we use it?
 
-It is used to get authorized reference. So for example if our NFT have some specific fields besides 'id', we should downcast it using 'as!' to be &NFT type, because &NonFungibleToken.NFT only have that 'id' member. But to do downcast it, we need to get authorized reference with 'auth'.
+It is used to get authorized reference. So for example if our NFT have some specific fields besides 'id', we should downcast it using 'as!' to be &NFT type, because &NonFungibleToken.NFT only have that 'id' member. But to downcast it, we need to get authorized reference with 'auth'.
 
 #### 3. This last quest will be your most difficult yet. Take this contract:
 
@@ -17,7 +17,7 @@ and add a function called borrowAuthNFT just like we did in the section called "
 
 You will have to write all the transactions to set up the accounts, mint the NFTs, and then the scripts to read the NFT's metadata. We have done most of this in the chapters up to this point, so you can look for help there :)
 
-##### Updated contract with borrowAuthNFT and the resource interface for using it:
+#### Updated contract with borrowAuthNFT and the resource interface for using it:
 
 ```cadence
 
@@ -118,7 +118,7 @@ pub contract CryptoPoops: NonFungibleToken {
 
 We would create a collection with 0x01 and mint NFT for that address. 0x03 will be minter, because it's where we deployed out CryptoPoops contract.
 
-#### Transaction #1. User should create empty collection to receive. Signer: 0x01
+#### Transaction #1. User should create empty collection to receive NFTs. Signer: 0x01
 
 ```cadence
 
@@ -129,7 +129,7 @@ transaction() {
   prepare(signer: AuthAccount) {
 
     // Only the signer of the transaction can create a collection to store NFTs
-    //signer.save(<- CryptoPoops.createEmptyCollection(), to: /storage/CryptoPoopsCollection)
+    signer.save(<- CryptoPoops.createEmptyCollection(), to: /storage/CryptoPoopsCollection)
 
     // Linking collection to public
     signer.link<&CryptoPoops.Collection{NonFungibleToken.CollectionPublic, CryptoPoops.CollectionAuth}>(/public/CryptoPoopsCollection, target: /storage/CryptoPoopsCollection)
@@ -191,10 +191,14 @@ pub fun main(id: UInt64, address: Address) {
 
   // Getting a public collection and an Auth one of the input address
   let addressCollection = getAccount(address).getCapability(/public/CryptoPoopsCollection)
-                            .borrow<&CryptoPoops.Collection{NonFungibleToken.CollectionPublic, CryptoPoops.CollectionAuth}>() 
+                            .borrow<&CryptoPoops.Collection{CryptoPoops.CollectionAuth}>() 
                             ?? panic("That address doesn't have a Collection. So there's nothing to look at :(")
 
-  log(addressCollection.getIDs())
+  let nft = addressCollection.borrowAuthNFT(id: id)
+
+  log(nft.name)
+  log(nft.favouriteFood)
+  log(nft.luckyNumber)
 
 }
 
