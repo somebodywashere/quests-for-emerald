@@ -138,7 +138,7 @@ transaction() {
 
 ```
 
-#### Transaction #2. Minting NFT for 0x01. Signer: 0x03
+#### Transaction #2. Minting NFT for 0x01. Inputs: somebody, Burger, 37, 0x01. Signer: 0x03.
 
 ```cadence
 
